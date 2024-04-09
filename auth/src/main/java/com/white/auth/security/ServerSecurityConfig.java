@@ -4,6 +4,8 @@ import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
+import com.white.auth.IUserRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -79,12 +81,10 @@ public class ServerSecurityConfig {
     }
 
     @Bean
-    UserDetailsService userDetailsService() {
-        var user1 = User.withUsername("user")
-                .password(passwordEncoder().encode("password"))
-                .authorities("read")
-                .build();
-        return new InMemoryUserDetailsManager(user1);
+    UserDetailsService userDetailsService(IUserRepository userRepository) {
+        return (u) -> userRepository.findByUsername(u)
+                .map(user -> new User(user.getUsername(), user.getPassword(), user.getAuthorities()))
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
     }
 
     @Bean
@@ -109,7 +109,6 @@ public class ServerSecurityConfig {
                 .tokenSettings(tokenSettings())
                 .clientSettings(clientSettings())
                 .build();
-
         return new InMemoryRegisteredClientRepository(registeredClient);
     }
 
@@ -158,7 +157,6 @@ public class ServerSecurityConfig {
                 context.getClaims().claim("authorities", authorities)
                         .claim("user", principal.getName());
             }
-
         };
     }
 
