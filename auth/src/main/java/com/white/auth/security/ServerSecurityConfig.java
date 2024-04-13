@@ -53,21 +53,17 @@ import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
+//http://localhost:9000/.well-known/oauth-authorization-server
 public class ServerSecurityConfig {
     @Bean
     @Order(1)
     SecurityFilterChain asSecurityFilterChain(HttpSecurity http) throws Exception {
-
         OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
-
-        return http
-                .getConfigurer(OAuth2AuthorizationServerConfigurer.class)
-                .oidc(withDefaults())
-                .and()
-                .exceptionHandling(e -> e
-                        .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login")))
-                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
-                .build();
+        http.getConfigurer(OAuth2AuthorizationServerConfigurer.class).oidc(withDefaults());
+        http.oauth2ResourceServer
+                        (oauth2 -> oauth2.jwt(jwtConfigurer -> jwtConfigurer.decoder(jwtDecoder(jwkSource()))))
+                .exceptionHandling(e -> e.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login")));
+        return http.build();
     }
 
     @Bean

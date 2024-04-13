@@ -12,10 +12,14 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create-drop
-  security:
+  security: 
     oauth2:
       resourceserver:
         jwt:
           issuer-uri: http://localhost:9000
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
 server:
   port: 8080

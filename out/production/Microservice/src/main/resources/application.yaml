@@ -2,7 +2,7 @@ server:
   port: 9000
 spring:
   application:
-    name: auth-server
+    name: order-service
   datasource:
     url: jdbc:h2:mem:testdb
     driverClassName: org.h2.Driver
@@ -14,8 +14,3 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create-drop
-eureka:
-  client:
-    service-url:
-        defaultZone: http://localhost:8761/eureka
-    fetch-registry: true
