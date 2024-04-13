@@ -1,10 +1,18 @@
 package com.white.product.core;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.sql.Timestamp;
 
 @MappedSuperclass
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class CoreEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

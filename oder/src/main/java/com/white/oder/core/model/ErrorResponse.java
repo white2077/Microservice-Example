@@ -1,4 +1,4 @@
-package com.white.oder.core.emum.model;
+package com.white.oder.core.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

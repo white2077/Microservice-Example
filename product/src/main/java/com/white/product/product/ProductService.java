@@ -1,5 +1,7 @@
 package com.white.product.product;
 
+import com.white.product.category.Category;
+import com.white.product.category.ICategoryRepository;
 import com.white.product.utils.MapperUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +14,7 @@ import java.util.List;
 @Slf4j
 public class ProductService {
     private final IProductRepository productRepository;
+    private final ICategoryRepository categoryRepository;
 
     public List<Product> getProducts() {
         log.info("Fetching all products");
@@ -19,7 +22,10 @@ public class ProductService {
     }
     public Product createProduct(ProductDTO.CreateProductDTO createProductDTO) {
         log.info("Creating product: "+createProductDTO);
-        return productRepository.save(MapperUtil.map(createProductDTO, Product.class));
+        Product product = productRepository.save(MapperUtil.map(createProductDTO, Product.class));
+        List<Category> categories = categoryRepository.findAllById(createProductDTO.getCategoryId());
+        product.setCategories(categories);
+        return productRepository.save(product);
     }
     public Product updateProduct(String id, ProductDTO.UpdateProductDTO updateProductDTO) {
         log.info("Updating product: "+updateProductDTO);

@@ -9,10 +9,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @SpringBootApplication
 public class AuthApplication implements CommandLineRunner {
-    @Autowired
-    private  IUserRepository userRepository;
-    @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
+    private final IUserRepository userRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
+
+    public AuthApplication(BCryptPasswordEncoder passwordEncoder, IUserRepository userRepository) {
+        this.passwordEncoder = passwordEncoder;
+        this.userRepository = userRepository;
+    }
 
 
     public static void main(String[] args) {

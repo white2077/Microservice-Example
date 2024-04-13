@@ -12,6 +12,10 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create-drop
-
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:9000
 server:
   port: 8080

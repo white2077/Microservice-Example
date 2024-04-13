@@ -1,4 +1,4 @@
-package com.white.product.core.security;
+package com.white.oder.core.security;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -12,7 +12,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-
 @Configuration
 public class SecurityConfig {
     @Value("${spring.security.oauth2.resourceserver.jwt.issuer-uri}")
@@ -21,14 +20,17 @@ public class SecurityConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.oauth2ResourceServer(oauth2->oauth2.jwt(jwtConfigurer -> jwtConfigurer.decoder(JwtDecoders.fromIssuerLocation(issuerUri))));
         http.authorizeHttpRequests(auth ->{
-                 auth.requestMatchers(
-                          "api/v1/products/create-product"
-                         ,"/api/v1/products/update-product/**"
-                         , "api/v1/products/delete-product/**")
-                         .hasAuthority("ADMIN");
-                 auth.anyRequest().permitAll();
-         });
-         return http.build();
+            try {
+                auth.anyRequest().hasAuthority("USER");
+//                            .and()
+//                            .oauth2ResourceServer()
+//                            .jwt()
+//                            .jwtAuthenticationConverter(jwtAuthenticationConverter()); // old source
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
+        return http.build();
     }
     @Bean
     public JwtAuthenticationConverter jwtAuthenticationConverter()  {

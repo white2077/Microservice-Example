@@ -1,4 +1,4 @@
-package com.white.oder.core.emum.exception;
+package com.white.oder.core.exception;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

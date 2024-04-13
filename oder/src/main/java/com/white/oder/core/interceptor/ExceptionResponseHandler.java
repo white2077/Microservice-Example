@@ -1,7 +1,7 @@
-package com.white.oder.core.emum.interceptor;
+package com.white.oder.core.interceptor;
 
 
-import com.white.oder.core.emum.exception.WhiteException;
+import com.white.oder.core.exception.WhiteException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-import com.white.oder.core.emum.model.ErrorResponse;
+import com.white.oder.core.model.ErrorResponse;
 
 @Slf4j
 @ControllerAdvice
