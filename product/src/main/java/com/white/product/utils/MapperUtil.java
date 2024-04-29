@@ -11,6 +11,7 @@ public class MapperUtil {
     public static <T> T map(Object source, Class<T> targetClass) {
         return modelMapper.map(source, targetClass);
     }
+
     public static <T> List<T>  mapList(@NotNull List<?> source, Class<T> targetClass) {
         return source.stream().map(e -> modelMapper.map(e, targetClass)).toList();
     }
